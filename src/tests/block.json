@@ -1,0 +1,46 @@
+{
+    "catalogItem": {
+        "ns": "catalog/ext/test-org/block/consumer",
+        "name": "Consumer-Block",
+        "description": "データコンシューマー用PXR-Blockの定義です。",
+        "_code": {
+            "_value": 1000108,
+            "_ver": null
+        },
+        "inherit": {
+            "_value": 31,
+            "_ver": null
+        }
+    },
+    "template": {
+        "prop": null,
+        "value": [
+            {
+                "key": "assigned-organization",
+                "value": "営利企業"
+            },
+            {
+                "key": "assignment-status",
+                "value": "assigned"
+            },
+            {
+                "key": "base-url",
+                "value": "consumer.test.org"
+            },
+            {
+                "key": "service-name",
+                "value": "pxr-consumer-service"
+            },
+            {
+                "key": "id",
+                "value": "Consumer-01"
+            },
+            {
+                "key": "first-login-url",
+                "value": "https://www.test.org/login"
+            }
+        ]
+    },
+    "inner": null,
+    "attribute": null
+}

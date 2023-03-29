@@ -1,0 +1,409 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "notification-service",
+        "version": "1.0",
+        "description": "通知サービス"
+    },
+    "servers": [
+        {
+            "url": "/notification"
+        }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "tags": [
+                    "承認要求通知リスト取得"
+                ],
+                "description": "オペレーター自身宛の通知、承認要求を取得します。",
+                "parameters": [
+                    {
+                        "name": "is_send",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "required": true,
+                        "description": "送信履歴(True: 自分が送信した通知・承認, False: 自分宛に送られた通知・承認)"
+                    },
+                    {
+                        "name": "is_unread",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "required": true,
+                        "description": "未読フラグ(True: 未読のみ, False: すべて)"
+                    },
+                    {
+                        "name": "is_approval",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "required": true,
+                        "description": "承認フラグ(True: 承認または非承認ステータスのみ, False: すべて)"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "required": true,
+                        "description": "通知種別(0: 通知のみ, それ以外: 承認要求)"
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": false,
+                        "description": "対象期間(自)(format: yyyy/MM/dd hh:mm:ss)"
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": false,
+                        "description": "対象期間(至)(format: yyyy/MM/dd hh:mm:ss)"
+                    },
+                    {
+                        "name": "num",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "required": true,
+                        "description": "最大件数(<= 0: 全件, > 0: 指定件数分)"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "レスポンスコード",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "description": "承認要求リスト",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+
+            "post": {
+                "tags": [
+                    "通知・承認要求の登録"
+                ],
+                "description": "通知や承認要求を登録します。",
+                "requestBody": {
+                    "description": "通知",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "description": "通知エンティティ",
+                                "properties": {
+                                    "type": {
+                                        "type": "integer",
+                                        "description": "種別"
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "description": "通知タイトル"
+                                    },
+                                    "content": {
+                                        "type": "string",
+                                        "description": "通知内容"
+                                    },
+                                    "attribute": {
+                                        "type": "object",
+                                        "description": "属性"
+                                    },
+                                    "destination": {
+                                        "type": "object",
+                                        "description": "宛先情報",
+                                        "properties": {
+                                            "blockCode": {
+                                                "type": "integer",
+                                                "description": "宛先Blockコード"
+                                            },
+                                            "operatorType": {
+                                                "type": "integer",
+                                                "description": "通知先オペレーター種別",
+                                                "required": ["0", "1", "2", "3"]
+                                            },
+                                            "isSendAll": {
+                                                "type": "boolean",
+                                                "description": "全体送信フラグ",
+                                                "required": ["true", "false"]
+                                            },
+                                            "operatorId": {
+                                                "type": "array",
+                                                "description": "宛先オペレーターID",
+                                                "items": {
+                                                    "type": "integer",
+                                                    "description": "オペレーターID"
+                                                }
+                                            },
+                                            "userId": {
+                                                "type": "array",
+                                                "description": "宛先ユーザーID",
+                                                "items": {
+                                                    "type": "string",
+                                                    "description": "ユーザーID"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "approval": {
+                                        "type": "object",
+                                        "description": "承認情報",
+                                        "properties": {
+                                            "noticeUrl": {
+                                                "type": "string",
+                                                "description": "通知先URL"
+                                            },
+                                            "expirationAt": {
+                                                "type": "string",
+                                                "description": "有効期限",
+                                                "format": "yyyy-MM-dd hh:mm:ss.SSS"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "example": {
+                                "type": 1,
+                                "title": "承認リクエスト",
+                                "content": "テスト: 承認をリクエストします。",
+                                "attribute": {
+                                    "testKey": "testValue"
+                                },
+                                "destination": {
+                                    "blockCode": 30303030,
+                                    "operatorType": 2,
+                                    "isSendAll": true,
+                                    "operatorId": null,
+                                    "userId": null
+                                },
+                                "approval": {
+                                    "noticeUrl": "http://service/catalog-update/actor/approval",
+                                    "expirationAt": "2020-04-01 00:00:00.000"
+                                }
+                            }
+                        }
+                    }
+                },
+
+                "responses": {
+                    "200": {
+                        "description": "登録された通知",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "description": "通知エンティティ + 登録結果ステータス",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "description": "通知ID"
+                                        },
+                                        "type": {
+                                            "type": "integer",
+                                            "description": "種別",
+                                            "required": ["0", "1"]
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "description": "通知タイトル"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "description": "通知内容"
+                                        },
+                                        "attribute": {
+                                            "type": "object",
+                                            "description": "属性"
+                                        },
+                                        "destination": {
+                                            "type": "object",
+                                            "description": "宛先情報",
+                                            "properties": {
+                                                "blockCode": {
+                                                    "type": "integer",
+                                                    "description": "宛先Blockコード"
+                                                },
+                                                "operatorType": {
+                                                    "type": "integer",
+                                                    "description": "通知先オペレーター種別",
+                                                    "required": ["0", "1", "2", "3"]
+                                                },
+                                                "isSendAll": {
+                                                    "type": "boolean",
+                                                    "description": "全体送信フラグ",
+                                                    "required": ["true", "false"]
+                                                },
+                                                "operatorId": {
+                                                    "type": "array",
+                                                    "description": "宛先オペレーターID",
+                                                    "items": {
+                                                        "type": "integer",
+                                                        "description": "オペレーターID"
+                                                    }
+                                                },
+                                                "userId": {
+                                                    "type": "array",
+                                                    "description": "宛先ユーザーID",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "description": "ユーザーID"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "approval": {
+                                            "type": "object",
+                                            "description": "承認情報",
+                                            "properties": {
+                                                "expirationAt": {
+                                                    "type": "string",
+                                                    "description": "有効期限",
+                                                    "format": "yyyy-MM-dd hh:mm:ss.SSS"
+                                                }
+                                            }
+                                        },
+                                        "sendAt": {
+                                            "type": "string",
+                                            "description": "送信日時",
+                                            "format": "yyyy-MM-dd hh:mm:ss.SSS"
+                                        },
+                                        "is_transfer": {
+                                            "type": "boolean",
+                                            "description": "転送フラグ"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "id": "1",
+                                    "type": 1,
+                                    "title": "承認リクエスト",
+                                    "content": "テスト: 承認をリクエストします。",
+                                    "attribute": {
+                                        "testKey": "testValue"
+                                    },
+                                    "destination": {
+                                        "blockCode": 30303030,
+                                        "operatorType": 2,
+                                        "isSendAll": true,
+                                        "operatorId": [],
+                                        "userId": []
+                                    },
+                                    "approval": {
+                                        "expirationAt": "2020-04-01 24:00:00.000"
+                                    },
+                                    "sendAt": "2019-11-29 09:36:54.521",
+                                    "is_transfer": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            
+            "put": {
+                "tags": [
+                    "既読処理"
+                ],
+                "description": "通知に対して、読んだ時刻を記録します。",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "description": "既読にする通知ID",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "description": "通知ID"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "id": 1
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "既読処理の結果",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "": "既読しました"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/approval": {
+            "put": {
+                "tags": [
+                    "承認要求への承認"
+                ],
+                "description": "承認要求に対して承認し、登録されたURLへ承認結果を送信します。",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "description": "承認内容",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "description": "通知ID"
+                                    },
+                                    "status": {
+                                        "type": "integer",
+                                        "description": "承認ステータス"
+                                    },
+                                    "commet": {
+                                        "type": "string",
+                                        "description": "コメント"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "id": 1,
+                                "status": 2,
+                                "comment": "承認に必要な情報が存在しない為、非承認とします。"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "承認処理の結果",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

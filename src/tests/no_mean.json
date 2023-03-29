@@ -1,0 +1,98 @@
+{
+    "catalogItem": {
+        "ns": "catalog/ext/test-org/actor/region-root/organization/region",
+        "name": "テスト用リージョン",
+        "description": "テスト用リージョンの定義です。",
+        "_code": {
+            "_value": 1000069,
+            "_ver": null
+        },
+        "inherit": {
+            "_value": 48,
+            "_ver": null
+        }
+    },
+    "template": {
+        "prop": null,
+        "value": [
+            {
+                "key": "statement",
+                "value": [
+                    {
+                        "key": "title",
+                        "value": "リージョンステートメント"
+                    },
+                    {
+                        "key": "section",
+                        "value": [
+                            {
+                                "key": "title",
+                                "value": "テスト用リージョンステートメントA"
+                            },
+                            {
+                                "key": "content",
+                                "value": [
+                                    {
+                                        "key": "sentence",
+                                        "value": "テスト用リージョンステートメントAの概要です。"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "key": "section",
+                        "value": [
+                            {
+                                "key": "title",
+                                "value": "テスト用リージョンステートメントB"
+                            },
+                            {
+                                "key": "content",
+                                "value": [
+                                    {
+                                        "key": "sentence",
+                                        "value": "テスト用リージョンステートメントBの概要です。"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "key": "section",
+                        "value": [
+                            {
+                                "key": "title",
+                                "value": "テスト用リージョンステートメントC"
+                            },
+                            {
+                                "key": "content",
+                                "value": [
+                                    {
+                                        "key": "sentence",
+                                        "value": "テスト用リージョンステートメントCの概要です。"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "wf-alliance",
+                "value": [
+                    {
+                        "key": "_value",
+                        "value": 1000070
+                    },
+                    {
+                        "key": "_ver",
+                        "value": 1
+                    }
+                ]
+            }
+        ]
+    },
+    "inner": null,
+    "attribute": null
+}

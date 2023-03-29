@@ -1,0 +1,48 @@
+[
+    {
+      "operatorId": 10000123,
+      "type": 3,
+      "loginId": "user01",
+      "name": "{\"aa\":\"aa\"}",
+      "auth": 0,
+      "roles": [
+        {
+          "_value": "1000109",
+          "_ver": "1"
+        }
+      ]
+    },
+    {
+      "operatorId": 10000125,
+      "type": 3,
+      "loginId": "user03",
+      "name": "{\"aa\":\"aa\"}",
+      "auth": 0,
+      "roles": [
+        {
+          "_value": "1000109",
+          "_ver": "1"
+        }
+      ]
+    },
+    {
+      "operatorId": 10000128,
+      "type": 3,
+      "loginId": "user06",
+      "name": "{}",
+      "auth": 0
+    },
+    {
+      "operatorId": 10000129,
+      "type": 3,
+      "loginId": "user07",
+      "name": "{}",
+      "auth": 0,
+      "roles": [
+        {
+          "_value": "1000109",
+          "_ver": "1"
+        }
+      ]
+    }
+  ]

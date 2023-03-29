@@ -1,0 +1,12 @@
+{
+    "operatorId": 10000124,
+    "type": 1,
+    "loginId": "user02",
+    "name": "{\"aa\":\"aa\"}",
+    "roles": [
+      {
+        "_value": "1000109",
+        "_ver": "1"
+      }
+    ]
+  }

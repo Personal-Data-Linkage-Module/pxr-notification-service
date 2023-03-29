@@ -1,0 +1,13 @@
+{
+    "operatorId": 10000129,
+    "type": 3,
+    "loginId": "user07",
+    "name": "{}",
+    "auth": 0,
+    "roles": [
+      {
+        "_value": "1000109",
+        "_ver": "1"
+      }
+    ]
+  }

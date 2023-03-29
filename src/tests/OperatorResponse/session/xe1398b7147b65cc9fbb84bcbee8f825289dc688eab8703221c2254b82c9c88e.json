@@ -1,0 +1,22 @@
+{
+    "sessionId": "xe1398b7147b65cc9fbb84bcbee8f825289dc688eab8703221c2254b82c9c88e",
+    "operatorId": 10000129,
+    "type": 3,
+    "loginId": "user07",
+    "name": "{}",
+    "auth": 0,
+    "roles": [
+      {
+        "_value": "1000109",
+        "_ver": "1"
+      }
+    ],
+    "block": {
+      "_value": 1000111,
+      "_ver": 1
+    },
+    "actor": {
+      "_value": 1000075,
+      "_ver": 1
+    }
+  }
