@@ -5,7 +5,7 @@ https://opensource.org/licenses/mit-license.php
 /* eslint-disable */
 import Notification from './postgres/Notification';
 import { connectDatabase } from '../common/Connection';
-import { getRepository, BaseEntity, getConnection } from 'typeorm';
+import { getRepository, BaseEntity, getConnection, EntityManager } from 'typeorm';
 import ApprovalManaged from './postgres/ApprovalManaged';
 import NotificationDestination from './postgres/NotificationDestination';
 /* eslint-enable */
@@ -230,7 +230,16 @@ export default class EntityOperation {
             if (entity.destinations && Array.isArray(entity.destinations)) {
                 for (const dest of entity.destinations) {
                     dest.notificationId = result.id;
-                    await destRepository.save(dest);
+                    await destRepository.createQueryBuilder().insert().into(NotificationDestination).values({
+                        notificationId: dest.notificationId,
+                        destinationOperatorId: dest.destinationOperatorId,
+                        destinationUserId: dest.destinationUserId,
+                        actorCode: dest.actorCode,
+                        actorVersion: dest.actorVersion,
+                        isDisabled: dest.isDisabled,
+                        createdBy: dest.createdBy,
+                        updatedBy: dest.updatedBy
+                    }).execute();
                 }
             }
             if (entity.approvalManaged) {

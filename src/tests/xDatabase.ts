@@ -67,7 +67,7 @@ export default class DatabaseUtility {
      */
     public async close () {
         if (this.client) {
-            this.client.on('drain', this.client.end.bind(this.client));
+            this.client.end();
         }
     }
 

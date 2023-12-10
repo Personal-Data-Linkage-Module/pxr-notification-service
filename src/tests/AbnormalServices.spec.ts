@@ -271,18 +271,18 @@ describe('Notification Service API', () => {
     });
 
     // カタログサービス関連
-    describe('追加API POST: ' + baseURI, () => {
-        let operatorServer: OperatorServer = null;
-        let catalogServer: CatalogServer2 = null;
-        beforeAll(async () => {
-            operatorServer = new OperatorServer(3000);
-            catalogServer = new CatalogServer2();
-        });
-        afterAll(async () => {
-            await operatorServer.stop();
-            await catalogServer.stop();
-        });
-    });
+    // describe('追加API POST: ' + baseURI, () => {
+    //     let operatorServer: OperatorServer = null;
+    //     let catalogServer: CatalogServer2 = null;
+    //     beforeAll(async () => {
+    //         operatorServer = new OperatorServer(3000);
+    //         catalogServer = new CatalogServer2();
+    //     });
+    //     afterAll(async () => {
+    //         await operatorServer.stop();
+    //         await catalogServer.stop();
+    //     });
+    // });
     describe('追加API POST: ' + baseURI, () => {
         let operatorServer: OperatorServer = null;
         beforeAll(async () => {
