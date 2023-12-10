@@ -3,7 +3,7 @@ Released under the MIT license.
 https://opensource.org/licenses/mit-license.php
 */
 /* eslint-disable */
-import helmet = require('helmet');
+import helmet from "helmet";
 import express = require('express');
 import { RequestHandler } from 'express';
 import cookieParser = require('cookie-parser');
