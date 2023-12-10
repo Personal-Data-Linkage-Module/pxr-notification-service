@@ -43,11 +43,14 @@ export default class EntityOperation {
     ): Promise<Notification[]> {
         const connection = getConnection('postgres');
         const sendFromMe = isSend
-            ? ' AND notification.fromOperatorId = :operatorId' : '';
+            ? ' AND notification.fromOperatorId = :operatorId'
+            : '';
         const sendToMe = !isSend
-            ? ' AND ((notificationDestination.destinationOperatorId = :operatorId AND notification.isSendAll = false) OR (notification.toBlockCatalogCode = :toBlockCode AND notification.toOperatorType = :operatorType AND notification.isSendAll = true))' : '';
+            ? ' AND ((notificationDestination.destinationOperatorId = :operatorId AND notification.isSendAll = false) OR (notification.toBlockCatalogCode = :toBlockCode AND notification.toOperatorType = :operatorType AND notification.isSendAll = true))'
+            : '';
         const approved = isApproval
-            ? ' AND approvalManaged.status <> 0' : '';
+            ? ' AND approvalManaged.status <> 0'
+            : '';
         const filterDate = ((): string => {
             let q = '';
             if (toDate) {

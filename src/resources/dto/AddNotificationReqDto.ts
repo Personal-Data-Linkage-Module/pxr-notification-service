@@ -92,37 +92,37 @@ export class Approval {
 export default class AddNotificationReqDto {
     @IsNumber()
     @IsDefined()
-    type: number;
+        type: number;
 
     @IsString()
     @IsDefined()
-    title: string;
+        title: string;
 
     @IsString()
     @IsDefined()
-    content: string;
+        content: string;
 
     @ValidateNested()
     @IsOptional()
-    attribute?: any;
+        attribute?: any;
 
     @IsOptional()
     @Type(() => From)
     @ValidateNested()
-    from: From;
+        from: From;
 
     @IsDefined()
     @Type(() => Category)
     @ValidateNested()
-    category: Category;
+        category: Category;
 
     @IsDefined()
     @Type(() => Destination)
     @ValidateNested()
-    destination: Destination;
+        destination: Destination;
 
     @Type(() => Approval)
     @ValidateNested()
     @ValidateIf(o => o.type === Notification.APPROVAL_TYPE)
-    approval?: Approval;
+        approval?: Approval;
 }

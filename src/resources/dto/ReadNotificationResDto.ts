@@ -10,5 +10,5 @@ export default class ReadNotificationResDto {
     status: 200;
 
     /** メッセージ */
-    message = '操作が正常に完了しました'
+    message = '操作が正常に完了しました';
 }

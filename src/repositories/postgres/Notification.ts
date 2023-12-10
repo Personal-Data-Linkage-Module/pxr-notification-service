@@ -36,71 +36,71 @@ export default class Notification extends BaseEntity {
 
     /** 通知種別 */
     @Column({ type: 'smallint', nullable: false })
-    type: number = 0;
+        type: number = 0;
 
     /** 送信元Blockカタログコード */
     @Column({ type: 'bigint', nullable: false, name: 'from_block_catalog_code' })
-    fromBlockCatalogCode: number = 0;
+        fromBlockCatalogCode: number = 0;
 
     /** 送信元オペレーターID */
     @Column({ type: 'bigint', nullable: false, name: 'from_operator_id' })
-    fromOperatorId: number = 0;
+        fromOperatorId: number = 0;
 
     /** 差出元アクターコード */
     @Column({ type: 'bigint', nullable: false, name: 'from_actor_code' })
-    fromActorCode: number;
+        fromActorCode: number;
 
     /** 送信元アクターバージョン */
     @Column({ type: 'bigint', nullable: false, name: 'from_actor_version' })
-    fromActorVersion: number;
+        fromActorVersion: number;
 
     /** 宛先Blockカタログコード */
     @Column({ type: 'bigint', nullable: false, name: 'to_block_catalog_code' })
-    toBlockCatalogCode: number = 0;
+        toBlockCatalogCode: number = 0;
 
     /** 送信オペレーター種別 */
     @Column({ type: 'smallint', nullable: false, name: 'to_operator_type' })
-    toOperatorType: number = 0;
+        toOperatorType: number = 0;
 
     /** カテゴリーカタログコード */
     @Column({ type: 'bigint', nullable: false, name: 'category_catalog_code' })
-    categoryCatalogCode: number;
+        categoryCatalogCode: number;
 
     /** カテゴリーカタログバージョン */
     @Column({ type: 'bigint', nullable: false, name: 'category_catalog_version' })
-    categoryCatalogVersion: number;
+        categoryCatalogVersion: number;
 
     /** 全体送信フラグ */
     @Column({ type: 'boolean', nullable: false, default: false, name: 'is_send_all' })
-    isSendAll: boolean = false;
+        isSendAll: boolean = false;
 
     /** タイトル */
     @Column({ type: 'varchar', length: 255, nullable: false })
-    title: string = '';
+        title: string = '';
 
     /** 内容 */
     @Column({ type: 'text', nullable: false })
-    content: string = '';
+        content: string = '';
 
     /** 属性 */
     @Column({ type: 'text', default: '' })
-    attributes: string = '';
+        attributes: string = '';
 
     /** 送信日時 */
     @Column({ type: 'timestamp without time zone', name: 'send_at' })
-    sendAt: Date = new Date();
+        sendAt: Date = new Date();
 
     /** 転送フラグ */
     @Column({ type: 'boolean', nullable: false, default: false, name: 'is_transfer' })
-    isTransfer: boolean = false;
+        isTransfer: boolean = false;
 
     /** 無効フラグ */
     @Column({ type: 'boolean', nullable: false, default: false, name: 'is_disabled' })
-    isDisabled: boolean = false;
+        isDisabled: boolean = false;
 
     /** 登録者 */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'created_by' })
-    createdBy: string = '';
+        createdBy: string = '';
 
     /** 登録日時 */
     @CreateDateColumn({ type: 'timestamp without time zone', name: 'created_at' })
@@ -108,7 +108,7 @@ export default class Notification extends BaseEntity {
 
     /** 更新者 */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'updated_by' })
-    updatedBy: string = '';
+        updatedBy: string = '';
 
     /** 更新日時 */
     @UpdateDateColumn({ type: 'timestamp without time zone', name: 'updated_at', onUpdate: 'now()' })
@@ -117,15 +117,15 @@ export default class Notification extends BaseEntity {
     /** 宛先管理テーブルのレコード */
     @OneToMany(type => NotificationDestination, dest => dest.notification)
     @JoinColumn({ name: 'id', referencedColumnName: 'notificationId' })
-    destinations: NotificationDestination[];
+        destinations: NotificationDestination[];
 
     /** 既読フラグ管理のレコード */
     @OneToMany(type => ReadFlagManagement, readFlag => readFlag.notification)
     @JoinColumn({ name: 'id', referencedColumnName: 'notification_id' })
-    readingManagement: ReadFlagManagement[];
+        readingManagement: ReadFlagManagement[];
 
     /** 承認管理テーブルのレコード */
     @OneToOne(type => ApprovalManaged, approvalManaged => approvalManaged.notification)
     @JoinColumn({ name: 'id', referencedColumnName: 'notificationId' })
-    approvalManaged: ApprovalManaged;
+        approvalManaged: ApprovalManaged;
 }

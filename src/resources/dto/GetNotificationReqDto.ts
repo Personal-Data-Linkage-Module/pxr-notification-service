@@ -23,43 +23,43 @@ export default class GetNotificationReqDto {
     @IsBoolean()
     @IsDefined()
     @Expose({ name: 'is_send' })
-    isSend: boolean;
+        isSend: boolean;
 
     /** 既読フラグ */
     @Transform(transformToBooleanFromString)
     @IsBoolean()
     @IsDefined()
     @Expose({ name: 'is_unread' })
-    isUnread: boolean;
+        isUnread: boolean;
 
     /** 承認済みフラグ */
     @Transform(transformToBooleanFromString)
     @IsBoolean()
     @IsDefined()
     @Expose({ name: 'is_approval' })
-    isApproval: boolean;
+        isApproval: boolean;
 
     /** 最大件数 */
     @Transform(transformToNumber)
     @IsNumber()
     @IsDefined()
-    num: number;
+        num: number;
 
     /** 種別 */
     @Transform(transformToNumber)
     @IsNumber()
     @IsDefined()
-    type: number;
+        type: number;
 
     /** 送信日時の絞り込み範囲 */
     @Transform(transformToDate)
     @IsOptional()
     @IsDate()
-    from: Date;
+        from: Date;
 
     /** 送信日時の絞り込み範囲 */
     @Transform(transformToDate)
     @IsOptional()
     @IsDate()
-    to: Date;
+        to: Date;
 }

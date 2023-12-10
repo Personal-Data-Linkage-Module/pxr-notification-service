@@ -34,43 +34,43 @@ export default class ApprovalManaged extends BaseEntity {
 
     /** 通知ID */
     @Column({ type: 'bigint', name: 'notification_id' })
-    notificationId: number = 0;
+        notificationId: number = 0;
 
     /** 承認操作のオペレーターID */
     @Column({ type: 'bigint', name: 'approver_operator_id' })
-    approvalOperatorId: number = 0;
+        approvalOperatorId: number = 0;
 
     /** 承認ステータス */
     @Column({ type: 'smallint', nullable: false, default: 0 })
-    status: number = 0;
+        status: number = 0;
 
     /** コメント */
     @Column({ type: 'varchar', length: 255, name: 'comment' })
-    comment: string;
+        comment: string;
 
     /** 承認日時 */
     @Column({ type: 'timestamp without time zone', name: 'approval_at' })
-    approvalAt: Date | null = null;
+        approvalAt: Date | null = null;
 
     /** 通知Block */
     @Column({ type: 'bigint', nullable: false, name: 'notice_block_code' })
-    noticeBlockCode: number = 0;
+        noticeBlockCode: number = 0;
 
     /** 通知URL */
     @Column({ type: 'text', nullable: false, name: 'notice_url' })
-    noticeUrl: string = '';
+        noticeUrl: string = '';
 
     /** 有効期限 */
     @Column({ type: 'timestamp without time zone', name: 'expiration_at' })
-    expirationAt: Date = new Date();
+        expirationAt: Date = new Date();
 
     /** 無効フラグ */
     @Column({ type: 'boolean', nullable: false, default: false, name: 'is_disabled' })
-    isDisabled: boolean = false;
+        isDisabled: boolean = false;
 
     /** 登録者 */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'created_by' })
-    createdBy: string = '';
+        createdBy: string = '';
 
     /** 登録日時 */
     @CreateDateColumn({ type: 'timestamp without time zone', name: 'created_at' })
@@ -78,7 +78,7 @@ export default class ApprovalManaged extends BaseEntity {
 
     /** 更新者 */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'updated_by' })
-    updatedBy: string = '';
+        updatedBy: string = '';
 
     /** 更新日時 */
     @UpdateDateColumn({ type: 'timestamp without time zone', name: 'updated_at', onUpdate: 'now()' })
@@ -87,5 +87,5 @@ export default class ApprovalManaged extends BaseEntity {
     /** 通知エンティティ */
     @OneToOne(type => Notification, notice => notice.approvalManaged)
     @JoinColumn({ name: 'notification_id', referencedColumnName: 'id' })
-    notification: Notification
+        notification: Notification;
 }

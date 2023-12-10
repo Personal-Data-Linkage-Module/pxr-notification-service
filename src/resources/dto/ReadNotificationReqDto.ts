@@ -21,5 +21,5 @@ export default class ReadNotificationReqDto {
     })
     @IsNumber()
     @IsDefined()
-    id: number;
+        id: number;
 }
