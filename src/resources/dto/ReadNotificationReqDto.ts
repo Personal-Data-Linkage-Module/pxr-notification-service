@@ -12,10 +12,10 @@ import {
  * PUT: 通知に対する既読操作のリクエストDTO
  */
 export default class ReadNotificationReqDto {
-    @Transform((t: any): number => {
-        const result = parseInt(t);
+    @Transform(({ value }) => {
+        const result = parseInt(value);
         if (isNaN(result)) {
-            return t;
+            return value;
         }
         return result;
     })

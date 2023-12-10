@@ -49,7 +49,7 @@ export class Destination {
     @IsDefined()
     operatorType: number;
 
-    @Transform(transformToBooleanFromString)
+    @Transform(({ value }) => { return transformToBooleanFromString(value); })
     @IsBoolean()
     @IsDefined()
     isSendAll: boolean;
@@ -79,7 +79,7 @@ export class Approval {
     @IsDefined()
     noticeUrl: string;
 
-    @Transform(transformToDateTime)
+    @Transform(({ value }) => { return transformToDateTime(value); })
     @IsDate()
     @IsOptional()
     expirationAt: Date;

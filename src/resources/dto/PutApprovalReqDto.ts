@@ -23,13 +23,13 @@ export default class PutApprovalReqDto {
         comment: string = '';
 
     /** 操作対象の通知ID */
-    @Transform(transformToNumber)
+    @Transform(({ value }) => { return transformToNumber(value); })
     @IsNumber()
     @IsDefined()
         id: number;
 
     /** 承認結果ステータス */
-    @Transform(transformToNumber)
+    @Transform(({ value }) => { return transformToNumber(value); })
     @IsNumber()
     @IsDefined()
         status: number;
