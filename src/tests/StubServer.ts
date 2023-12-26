@@ -3,8 +3,9 @@ Released under the MIT license.
 https://opensource.org/licenses/mit-license.php
 */
 /* eslint-disable */
-import helmet = require('helmet');
+import helmet from "helmet";
 import express = require('express');
+import { RequestHandler } from 'express';
 import cookieParser = require('cookie-parser');
 import { Server } from 'net';
 import { doPostRequest } from '../common/DoRequest';
@@ -347,7 +348,7 @@ export class CatalogServer {
     stop () {
         return new Promise((resolve, reject) => {
             this.server.close(() => {
-                resolve();
+                resolve(null);
             });
         });
     }
@@ -383,7 +384,7 @@ export class CatalogServer2 {
     stop () {
         return new Promise((resolve, reject) => {
             this.server.close(() => {
-                resolve();
+                resolve(null);
             });
         });
     }
@@ -411,7 +412,7 @@ export class ApprovalServer {
     stop () {
         return new Promise((resolve, reject) => {
             this.server.close(() => {
-                resolve();
+                resolve(null);
             });
         });
     }
@@ -436,7 +437,7 @@ export class TransferServer {
     stop () {
         return new Promise((resolve, reject) => {
             this.server.close(() => {
-                resolve();
+                resolve(null);
             });
         });
     }
@@ -449,7 +450,7 @@ export class OperatorServer {
     constructor (status: number) {
         this.app = express();
         this.app.use(cookieParser());
-        this.app.use(express.json());
+        this.app.use(express.json() as RequestHandler);
         this.app.get('/operator/:code', (req: express.Request, res: express.Response) => {
             const id = parseInt(req.params.code);
             res.status(status);
@@ -553,7 +554,7 @@ export class OperatorServer {
     stop () {
         return new Promise((resolve, reject) => {
             this.server.close(() => {
-                resolve();
+                resolve(null);
             });
         });
     }
@@ -566,7 +567,7 @@ export class OperatorServerAbnormalAuth {
     constructor (port: number) {
         this.app = express();
         this.app.use(cookieParser());
-        this.app.use(express.json());
+        this.app.use(express.json() as RequestHandler);
         this.app.post('/operator/session', (req: express.Request, res: express.Response) => {
             res.status(500);
             res.end();
@@ -577,7 +578,7 @@ export class OperatorServerAbnormalAuth {
     stop () {
         return new Promise((resolve, reject) => {
             this.server.close(() => {
-                resolve();
+                resolve(null);
             });
         });
     }
@@ -590,7 +591,7 @@ export class OperatorServerAbnormalUser {
     constructor (port: number) {
         this.app = express();
         this.app.use(cookieParser());
-        this.app.use(express.json());
+        this.app.use(express.json() as RequestHandler);
         this.app.get('/operator/:code', (req: express.Request, res: express.Response) => {
             res.status(500);
             res.end();
@@ -621,7 +622,7 @@ export class OperatorServerAbnormalUser {
     stop () {
         return new Promise((resolve, reject) => {
             this.server.close(() => {
-                resolve();
+                resolve(null);
             });
         });
     }
@@ -633,8 +634,8 @@ export class ProxyServer {
     server: Server;
     constructor (port: number) {
         this.app = express();
-        this.app.use(express.json());
-        this.app.use(express.urlencoded({ extended: false }));
+        this.app.use(express.json() as RequestHandler);
+        this.app.use(express.urlencoded({ extended: false }) as RequestHandler);
         this.app.use(cookieParser());
         this.app.use(helmet());
         const handler = async (req: express.Request, res: express.Response) => {
@@ -671,7 +672,7 @@ export class ProxyServer {
     stop () {
         return new Promise((resolve, reject) => {
             this.server.close(() => {
-                resolve();
+                resolve(null);
             });
         });
     }
@@ -694,7 +695,7 @@ export class ProxyServerBadRequest {
     stop () {
         return new Promise((resolve, reject) => {
             this.server.close(() => {
-                resolve();
+                resolve(null);
             });
         });
     }
@@ -717,7 +718,7 @@ export class ProxyServerAbnormal {
     stop () {
         return new Promise((resolve, reject) => {
             this.server.close(() => {
-                resolve();
+                resolve(null);
             });
         });
     }

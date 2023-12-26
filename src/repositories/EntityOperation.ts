@@ -5,7 +5,7 @@ https://opensource.org/licenses/mit-license.php
 /* eslint-disable */
 import Notification from './postgres/Notification';
 import { connectDatabase } from '../common/Connection';
-import { getRepository, BaseEntity, getConnection } from 'typeorm';
+import { getRepository, BaseEntity, getConnection, EntityManager } from 'typeorm';
 import ApprovalManaged from './postgres/ApprovalManaged';
 import NotificationDestination from './postgres/NotificationDestination';
 /* eslint-enable */
@@ -43,11 +43,14 @@ export default class EntityOperation {
     ): Promise<Notification[]> {
         const connection = getConnection('postgres');
         const sendFromMe = isSend
-            ? ' AND notification.fromOperatorId = :operatorId' : '';
+            ? ' AND notification.fromOperatorId = :operatorId'
+            : '';
         const sendToMe = !isSend
-            ? ' AND ((notificationDestination.destinationOperatorId = :operatorId AND notification.isSendAll = false) OR (notification.toBlockCatalogCode = :toBlockCode AND notification.toOperatorType = :operatorType AND notification.isSendAll = true))' : '';
+            ? ' AND ((notificationDestination.destinationOperatorId = :operatorId AND notification.isSendAll = false) OR (notification.toBlockCatalogCode = :toBlockCode AND notification.toOperatorType = :operatorType AND notification.isSendAll = true))'
+            : '';
         const approved = isApproval
-            ? ' AND approvalManaged.status <> 0' : '';
+            ? ' AND approvalManaged.status <> 0'
+            : '';
         const filterDate = ((): string => {
             let q = '';
             if (toDate) {
@@ -230,7 +233,16 @@ export default class EntityOperation {
             if (entity.destinations && Array.isArray(entity.destinations)) {
                 for (const dest of entity.destinations) {
                     dest.notificationId = result.id;
-                    await destRepository.save(dest);
+                    await destRepository.createQueryBuilder().insert().into(NotificationDestination).values({
+                        notificationId: dest.notificationId,
+                        destinationOperatorId: dest.destinationOperatorId,
+                        destinationUserId: dest.destinationUserId,
+                        actorCode: dest.actorCode,
+                        actorVersion: dest.actorVersion,
+                        isDisabled: dest.isDisabled,
+                        createdBy: dest.createdBy,
+                        updatedBy: dest.updatedBy
+                    }).execute();
                 }
             }
             if (entity.approvalManaged) {

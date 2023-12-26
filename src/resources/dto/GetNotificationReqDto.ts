@@ -19,47 +19,47 @@ import { transformToBooleanFromString, transformToNumber, transformToDate } from
  */
 export default class GetNotificationReqDto {
     /** 送信フラグ */
-    @Transform(transformToBooleanFromString)
+    @Transform(({ value }) => { return transformToBooleanFromString(value); })
     @IsBoolean()
     @IsDefined()
     @Expose({ name: 'is_send' })
-    isSend: boolean;
+        isSend: boolean;
 
     /** 既読フラグ */
-    @Transform(transformToBooleanFromString)
+    @Transform(({ value }) => { return transformToBooleanFromString(value); })
     @IsBoolean()
     @IsDefined()
     @Expose({ name: 'is_unread' })
-    isUnread: boolean;
+        isUnread: boolean;
 
     /** 承認済みフラグ */
-    @Transform(transformToBooleanFromString)
+    @Transform(({ value }) => { return transformToBooleanFromString(value); })
     @IsBoolean()
     @IsDefined()
     @Expose({ name: 'is_approval' })
-    isApproval: boolean;
+        isApproval: boolean;
 
     /** 最大件数 */
-    @Transform(transformToNumber)
+    @Transform(({ value }) => { return transformToNumber(value); })
     @IsNumber()
     @IsDefined()
-    num: number;
+        num: number;
 
     /** 種別 */
-    @Transform(transformToNumber)
+    @Transform(({ value }) => { return transformToNumber(value); })
     @IsNumber()
     @IsDefined()
-    type: number;
+        type: number;
 
     /** 送信日時の絞り込み範囲 */
-    @Transform(transformToDate)
+    @Transform(({ value }) => { return transformToDate(value); })
     @IsOptional()
     @IsDate()
-    from: Date;
+        from: Date;
 
     /** 送信日時の絞り込み範囲 */
-    @Transform(transformToDate)
+    @Transform(({ value }) => { return transformToDate(value); })
     @IsOptional()
     @IsDate()
-    to: Date;
+        to: Date;
 }
