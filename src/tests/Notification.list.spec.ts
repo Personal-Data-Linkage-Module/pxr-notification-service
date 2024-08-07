@@ -3,7 +3,7 @@ Released under the MIT license.
 https://opensource.org/licenses/mit-license.php
 */
 import Application from '../index';
-import { clearTables, destInsert, notificationInsert, approvalInsert, readFlagInsert } from './xDatabase';
+import { clearTables, destInsert, notificationInsert, approvalInsert, readFlagInsert, notificationCategoryInsert } from './xDatabase';
 import { OperatorServer } from './StubServer';
 import supertest = require('supertest');
 
@@ -54,7 +54,7 @@ describe('Notification Service API', () => {
         // テーブルをクリア
         await clearTables();
         // アプリケーションの停止
-        Application.stop()
+        Application.stop();
         // スタブサーバーの停止
         await operatorServer.stop();
     });
@@ -382,27 +382,27 @@ describe('Notification Service API', () => {
                 sendAt: response.body[0].sendAt,
                 is_transfer: false
             }, {
-                    id: 8,
-                    type: 0,
-                    title: 'Test',
-                    content: 'Test notice record',
-                    attribute: null,
-                    category: {
+                id: 8,
+                type: 0,
+                title: 'Test',
+                content: 'Test notice record',
+                attribute: null,
+                category: {
+                    _value: 1,
+                    _ver: 1
+                },
+                from: {
+                    blockCode: 1000111,
+                    operatorId: 1000125,
+                    actor: {
                         _value: 1,
                         _ver: 1
-                    },
-                    from: {
-                        blockCode: 1000111,
-                        operatorId: 1000125,
-                        actor: {
-                            _value: 1,
-                            _ver: 1
-                        }
-                    },
-                    readAt: null,
-                    sendAt: response.body[1].sendAt,
-                    is_transfer: false
-                }]));
+                    }
+                },
+                readAt: null,
+                sendAt: response.body[1].sendAt,
+                is_transfer: false
+            }]));
             expect(response.status).toBe(200);
         });
         test('取得: is_send=false, is_approval=false, type=0 の未読のみ', async () => {
@@ -444,6 +444,154 @@ describe('Notification Service API', () => {
                 is_transfer: false
             }]));
             expect(response.status).toBe(200);
+        });
+        test('取得: カテゴリーを指定', async () => {
+            const id4 = await notificationCategoryInsert([
+                0,
+                1000111,
+                1111111,
+                2222222,
+                1000125,
+                1000111,
+                3,
+                false,
+                false,
+                156
+            ]);
+            await destInsert([id4, null, null]);
+            const response = await supertest(expressApp)
+                .get(baseURI)
+                .set('Cookie', [sessionName + '=f4e8797a4f4ed4b0142f25057cfe6e755230a58cc1b1b48ab54da273ef3cd0c4'])
+                .set({
+                    'Content-Type': 'application/json',
+                    accept: 'application/json'
+                })
+                .query({
+                    is_send: true,
+                    is_approval: false,
+                    is_unread: false,
+                    type: 0,
+                    num: 0,
+                    category: 156
+                });
+
+            // Expect status Success code.
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify([{
+                id: id4,
+                type: 0,
+                title: 'Test',
+                content: 'Test notice record',
+                attribute: null,
+                category: {
+                    _value: 156,
+                    _ver: 1
+                },
+                from: {
+                    blockCode: 1000111,
+                    operatorId: 1000125,
+                    actor: {
+                        _value: 1,
+                        _ver: 1
+                    }
+                },
+                destination: {
+                    blockCode: 1000111,
+                    operatorType: 3,
+                    isSendAll: false,
+                    operatorId: [null],
+                    userId: [null],
+                    actor: {
+                        _value: 1,
+                        _ver: 1
+                    }
+                },
+                sendAt: response.body[0].sendAt,
+                is_transfer: false
+            }]));
+            expect(response.status).toBe(200);
+        });
+        test('取得: 存在しないカテゴリーを指定', async () => {
+            const response = await supertest(expressApp)
+                .get(baseURI)
+                .set('Cookie', [sessionName + '=f4e8797a4f4ed4b0142f25057cfe6e755230a58cc1b1b48ab54da273ef3cd0c4'])
+                .set({
+                    'Content-Type': 'application/json',
+                    accept: 'application/json'
+                })
+                .query({
+                    is_send: true,
+                    is_approval: false,
+                    is_unread: false,
+                    type: 0,
+                    num: 0,
+                    category: 9999999
+                });
+
+            // Expect status Success code.
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify({}));
+            expect(response.status).toBe(204);
+        });
+        test('取得: カテゴリーを指定(最小値)', async () => {
+            const response = await supertest(expressApp)
+                .get(baseURI)
+                .set('Cookie', [sessionName + '=cf930faf40d879b87a550d59f26fa4d5c788bb45fa9c94cee6c597608cb46acc'])
+                .set({
+                    'Content-Type': 'application/json',
+                    accept: 'application/json'
+                })
+                .query({
+                    is_send: false,
+                    is_approval: false,
+                    is_unread: true,
+                    type: 0,
+                    num: 0,
+                    category: 1
+                });
+            // Expect status Success code.
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify([{
+                id: 8,
+                type: 0,
+                title: 'Test',
+                content: 'Test notice record',
+                attribute: null,
+                category: {
+                    _value: 1,
+                    _ver: 1
+                },
+                from: {
+                    blockCode: 1000111,
+                    operatorId: 1000125,
+                    actor: {
+                        _value: 1,
+                        _ver: 1
+                    }
+                },
+                readAt: null,
+                sendAt: response.body[0].sendAt,
+                is_transfer: false
+            }]));
+            expect(response.status).toBe(200);
+        });
+        test('取得: カテゴリーを指定(最大値)', async () => {
+            const response = await supertest(expressApp)
+                .get(baseURI)
+                .set('Cookie', [sessionName + '=f4e8797a4f4ed4b0142f25057cfe6e755230a58cc1b1b48ab54da273ef3cd0c4'])
+                .set({
+                    'Content-Type': 'application/json',
+                    accept: 'application/json'
+                })
+                .query({
+                    is_send: true,
+                    is_approval: false,
+                    is_unread: false,
+                    type: 0,
+                    num: 0,
+                    category: Number.MAX_SAFE_INTEGER
+                });
+
+            // Expect status Success code.
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify({}));
+            expect(response.status).toBe(204);
         });
     });
 });

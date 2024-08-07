@@ -123,7 +123,7 @@ export default class NotificationService {
         const entities = await EntityOperation.takeNotification(
             dto.type, dto.isSend, dto.isUnread, dto.isApproval,
             dto.num, dto.to, dto.from, operator.operatorId, operator.type,
-            operator.blockCode);
+            operator.blockCode, dto.category);
         if (entities.length <= 0) {
             throw new AppError(Message.NOT_EXISTS_NOTIFICATION, 204);
         }

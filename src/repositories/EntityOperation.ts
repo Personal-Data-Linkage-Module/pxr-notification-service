@@ -39,7 +39,8 @@ export default class EntityOperation {
         fromDate: Date,
         operatorId: number,
         operatorType: number,
-        toBlockCode: number
+        toBlockCode: number,
+        category: number
     ): Promise<Notification[]> {
         const connection = getConnection('postgres');
         const sendFromMe = isSend
@@ -98,6 +99,9 @@ export default class EntityOperation {
                         'readingManagement.id IS NULL'
                     );
                 }
+                if (category) {
+                    entities.andWhere('notification.category_catalog_code = :categoryCatalogCode', { categoryCatalogCode: category });
+                }
                 entities.limit(num > 0 ? num : null)
                     .orderBy('notification.id', 'DESC');
 
@@ -131,6 +135,9 @@ export default class EntityOperation {
                     entities.andWhere(
                         'readingManagement.id IS NULL'
                     );
+                }
+                if (category) {
+                    entities.andWhere('notification.category_catalog_code = :category', { category: category });
                 }
                 entities.limit(num > 0 ? num : null)
                     .orderBy('notification.id', 'DESC');
