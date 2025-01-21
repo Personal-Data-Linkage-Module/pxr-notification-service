@@ -118,7 +118,7 @@ describe('Notification Service API', () => {
         // テーブルをクリア
         await clearTables();
         // アプリケーションの停止
-        Application.stop()
+        Application.stop();
         // スタブサーバーの停止
         await operatorServer.stop();
         await approvalServer.stop();
