@@ -98,7 +98,6 @@ export default class DatabaseUtility {
     }
 }
 
-
 /**
  * データベースに引数の内容で通知を登録する
  * @param params: [type, from_block_catalog_code, from_application_catalog_code, from_workflow_catalog_code, from_operator_id, to_block_catalog_code, to_operator_type, is_send_all, is_transfer]
@@ -132,6 +131,50 @@ export async function notificationInsert (params: (string | number | boolean)[])
         ) VALUES (
             $1, $2, $3, $4, $5, $6, $7, $8, $9,
             'Test', 'Test notice record', null, now(), false, 'tester', now(), 'tester', now(), 1, 1, 1, 1
+        )
+        RETURNING id
+    `;
+    await database.connect();
+    const result = await database.query(query, params);
+    await database.close();
+    return parseInt(result.rows[0].id);
+}
+
+/**
+ * カテゴリーを指定して通知を登録する
+ * @param params: [type, from_block_catalog_code, from_application_catalog_code, from_workflow_catalog_code, from_operator_id, to_block_catalog_code, to_operator_type, is_send_all, is_transfer, category_catalog_code]
+ */
+export async function notificationCategoryInsert (params: (string | number | boolean)[]): Promise<number> {
+    const database = new DatabaseUtility();
+    const query = `
+        INSERT INTO ${database.getSchemaName()}.notification (
+            type,
+            from_block_catalog_code,
+            from_application_catalog_code,
+            from_workflow_catalog_code,
+            from_operator_id,
+            to_block_catalog_code,
+            to_operator_type,
+            is_send_all,
+            is_transfer,
+            title,
+            content,
+            attributes,
+            send_at,
+            is_disabled,
+            created_by,
+            created_at,
+            updated_by,
+            updated_at,
+            category_catalog_code,
+            category_catalog_version,
+            from_actor_code,
+            from_actor_version
+        ) VALUES (
+            $1, $2, $3, $4, $5, $6, $7, $8, $9,
+            'Test', 'Test notice record', null, now(), false, 'tester', now(), 'tester', now(),
+            $10,
+            1, 1, 1
         )
         RETURNING id
     `;

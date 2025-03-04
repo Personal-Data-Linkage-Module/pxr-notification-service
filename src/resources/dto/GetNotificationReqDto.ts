@@ -9,7 +9,9 @@ import {
     IsDate,
     IsBoolean,
     IsOptional,
-    IsDefined
+    IsDefined,
+    Max,
+    Min
 } from 'class-validator';
 import { transformToBooleanFromString, transformToNumber, transformToDate } from '../../common/Transform';
 /* eslint-enable */
@@ -62,4 +64,12 @@ export default class GetNotificationReqDto {
     @IsOptional()
     @IsDate()
         to: Date;
+
+    /** カテゴリーカタログコード */
+    @Transform(({ value }) => { return transformToNumber(value); })
+    @Max(Number.MAX_SAFE_INTEGER)
+    @Min(1)
+    @IsNumber()
+    @IsOptional()
+        category: number;
 }

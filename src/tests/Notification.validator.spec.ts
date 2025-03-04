@@ -22,7 +22,7 @@ describe('Notification Service API', () => {
     // テストがすべて終了したら実行される事後処理
     afterAll(async () => {
         // アプリケーションの停止
-        Application.stop()
+        Application.stop();
     });
 
     // POSTメソッドのAPIテスト
